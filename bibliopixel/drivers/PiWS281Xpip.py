@@ -88,7 +88,7 @@ class PiWS281Xpip(DriverBase):
     """
 
     def __init__(
-            self, num, gamma=gamma.NEOPIXEL, c_order="GRB", gpio=18,
+            self, num, gamma=gamma.NEOPIXEL, c_order="GBR", gpio=18,
             ledFreqHz=800000, ledDma=5, ledInvert=False,
             color_channels=3, brightness=255, **kwds):
 
