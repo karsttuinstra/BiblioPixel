@@ -10,6 +10,7 @@ BUILTIN_ALIASES = {
     'apa102': 'bibliopixel.drivers.SPI.APA102.APA102',
     'lpd8806': 'bibliopixel.drivers.SPI.LPD8806.LPD8806',
     'pi_ws281x': 'bibliopixel.drivers.PiWS281X.PiWS281X',
+    'pi_ws281xpip': 'bibliopixel.drivers.PiWS281Xpip.PiWS281Xpip',
     'serial': 'bibliopixel.drivers.serial.Serial',
     'sk9822': 'bibliopixel.drivers.SPI.APA102.APA102',
     'spi': 'bibliopixel.drivers.SPI.SPI',
