@@ -63,19 +63,12 @@ STRIP_TYPES = {
 
 class PiWS281Xpip(DriverBase):
     """
-    Driver for controlling WS281X LEDs via the rpi_ws281x C-extension.
+    Driver for controlling WS281X LEDs.
     Only supported on the Raspberry Pi 2, 3, and Zero
-    This driver needs to be run as sudo and requires the rpi_ws281x C extension.
-    Install rpi_ws281x with the following shell commands:
-        git clone https://github.com/jgarff/rpi_ws281x.git
-        cd rpi_ws281x
-        sudo apt-get install python-dev swig scons
-        sudo scons
-        cd python
-        # If using default system python3
-        sudo python3 setup.py build install
-        # If using virtualenv, enter env then run
-        python setup.py build install
+    This driver needs to be run as sudo.
+    The requirements can be installed with pip:
+        sudo pip3 install rpi_ws281x adafruit-circuitpython-neopixel
+    
     Provides the same parameters of :py:class:`.driver_base.DriverBase` as
     well as those below:
     :param int gpio: GPIO pin to output to. Typically 18 or 13
@@ -88,7 +81,7 @@ class PiWS281Xpip(DriverBase):
     """
 
     def __init__(
-            self, num, gamma=gamma.NEOPIXEL, c_order="GBR", gpio=18,
+            self, num, gamma=gamma.NEOPIXEL, c_order="RGB", gpio=18,
             ledFreqHz=800000, ledDma=5, ledInvert=False,
             color_channels=3, brightness=255, **kwds):
 
@@ -105,20 +98,6 @@ class PiWS281Xpip(DriverBase):
 
         self._pixels = neopixel.NeoPixel(board.D18, num, brightness=0.2, auto_write=False, pixel_order=neopixel.GRB)
         #self._strip = Adafruit_NeoPixel(num, gpio, ledFreqHz, ledDma, ledInvert, brightness, PIN_CHANNEL[gpio], strip_type)
-        # Intialize the library (must be called once before other functions).
-        #try:
-        #    self._pixels.begin()
-        #    #self._strip.begin()
-        #except RuntimeError as e:
-        #    if os.geteuid():
-        #        if os.path.basename(sys.argv[0]) in ('bp', 'bibliopixel'):
-        #            command = ['bp'] + sys.argv[1:]
-        #        else:
-        #            command = ['python'] + sys.argv
-        #        error = SUDO_ERROR.format(command=' '.join(command))
-        #        e.args = (error,) + e.args
-        #    raise
-
     def set_brightness(self, brightness):
         #self._pixels.setBrightness(brightness)
         return True

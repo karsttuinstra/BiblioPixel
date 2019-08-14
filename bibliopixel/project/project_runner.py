@@ -98,6 +98,7 @@ def _dump(args, desc):
 
 
 def _get_projects(args):
+    print(args)
     projects, failed = [], []
 
     movie = args.gif if args.movie == '' else args.movie
