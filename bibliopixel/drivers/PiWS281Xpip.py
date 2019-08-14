@@ -63,12 +63,19 @@ STRIP_TYPES = {
 
 class PiWS281Xpip(DriverBase):
     """
-    Driver for controlling WS281X LEDs.
+    Driver for controlling WS281X LEDs via the rpi_ws281x C-extension.
     Only supported on the Raspberry Pi 2, 3, and Zero
-    This driver needs to be run as sudo.
-    The requirements can be installed with pip:
-        sudo pip3 install rpi_ws281x adafruit-circuitpython-neopixel
-    
+    This driver needs to be run as sudo and requires the rpi_ws281x C extension.
+    Install rpi_ws281x with the following shell commands:
+        git clone https://github.com/jgarff/rpi_ws281x.git
+        cd rpi_ws281x
+        sudo apt-get install python-dev swig scons
+        sudo scons
+        cd python
+        # If using default system python3
+        sudo python3 setup.py build install
+        # If using virtualenv, enter env then run
+        python setup.py build install
     Provides the same parameters of :py:class:`.driver_base.DriverBase` as
     well as those below:
     :param int gpio: GPIO pin to output to. Typically 18 or 13
@@ -96,10 +103,26 @@ class PiWS281Xpip(DriverBase):
         except:
             raise ValueError('In PiWS281X, color_channels can only be 3 or 4')
 
-        self._pixels = neopixel.NeoPixel(board.D18, num, brightness=0.2, auto_write=False, pixel_order=neopixel.GRB)
+        NEObrigtness = (brightness / 255)
+        self._pixels = neopixel.NeoPixel(board.D18, num, brightness=NEObrigtness, auto_write=False, pixel_order=neopixel.GRB)
         #self._strip = Adafruit_NeoPixel(num, gpio, ledFreqHz, ledDma, ledInvert, brightness, PIN_CHANNEL[gpio], strip_type)
+        # Intialize the library (must be called once before other functions).
+        #try:
+        #    self._pixels.begin()
+        #    #self._strip.begin()
+        #except RuntimeError as e:
+        #    if os.geteuid():
+        #        if os.path.basename(sys.argv[0]) in ('bp', 'bibliopixel'):
+        #            command = ['bp'] + sys.argv[1:]
+        #        else:
+        #            command = ['python'] + sys.argv
+        #        error = SUDO_ERROR.format(command=' '.join(command))
+        #        e.args = (error,) + e.args
+        #    raise
+
     def set_brightness(self, brightness):
-        #self._pixels.setBrightness(brightness)
+        #NEObrigtness = (brightness / 255)
+        #self._pixels = neopixel.NeoPixel(board.D18, num, brightness=NEObrigtness, auto_write=False, pixel_order=neopixel.GRB)
         return True
 
     def _compute_packet(self):
@@ -111,5 +134,4 @@ class PiWS281Xpip(DriverBase):
     def _send_packet(self):
         for i, p in enumerate(self._packet):
             self._pixels[i] = p
-
         self._pixels.show()
