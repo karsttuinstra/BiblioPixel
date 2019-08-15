@@ -1,4 +1,4 @@
-git+git://github.com/karsttuinstra/BiblioPixel.git#egg=BiblioPixel
+git+https://github.com/karsttuinstra/BiblioPixel.git#egg=BiblioPixel
 BiblioPixelTriggers
 flask
 loady
