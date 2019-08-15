@@ -1,4 +1,4 @@
-BiblioPixelAnimations
+https://github.com/karsttuinstra/BiblioPixelAnimations/archive/master.zip
 BiblioPixelTriggers
 flask
 loady
